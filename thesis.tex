@@ -1,0 +1,229 @@
+% Everything after a percentile (%) is a comment and is ignored by LaTeX
+
+%%%%% UoAThesis options
+% MEng thesis - you don't want to use the doublesided option as it
+% "wastes" pages every chapter. 
+%
+% PhD thesis - you might want to add the doublesided option, it looks
+% nicer.
+%
+\documentclass[12pt]{UoAThesis}
+\thesistitle{Style template for Aberdeen Engineering and a rough guide to \LaTeX}
+\thesisauthor{Marcus Nigel Campbell Bannerman}
+\thesispdfkeywords{}
+\thesisyear{2017}
+
+\thesisabstract{This is a tutorial on \LaTeX in the style of a
+  thesis. It shows you how to use the UoAThesis style, and some common
+  formatting elements of \LaTeX. Please note, your supervisor is the
+  ultimate authority on the style and formatting of your thesis!}
+
+\acknowledgements{I would like to dedicate this work to .....}
+
+% The bibtex file where your references are stored
+\bibliography{thesis}
+
+\begin{document}
+
+\chapter{Introduction}
+Welcome to a latex thesis style for engineering students working on
+their honours project. I'll illustrate how to perform certain cool
+features of this thesis in the following text.
+
+First thing to note. In order for things such as the table of
+contents, references, and {\bf nomenclature} to work, you need to run
+latex multiple times, including running biber (bibliography)
+and makeindex (nomenclature). The command I use to make the
+nomenclature is as follows:
+
+{\tt
+  makeindex thesis.nlo -s nomencl.ist -o thesis.nls
+}
+
+How you run these depends on whether you're on windows, Mac, or Linux,
+so please google ``latex nomencl'' or ``latex biber'' and be sure to
+add the platform (windows/mac/linux) and the editor (e.g., miktex) if
+you're using one!
+
+The second thing to note is that to start a new paragraph I just
+leave at least one blank line in the text!
+
+\section{Numbering of Sections, Tables, and Equations}
+The first major benefit of Latex is that everything is numbered
+automatically. You don't have to generate a table of contents,
+figures, references or even a nomenclature. This is all handled
+automatically.
+
+\section{\label{sec:math} Mathematical Expressions}
+An excellent feature of latex is its support for math. For example, we
+can create an equation like so,
+\begin{equation}
+  y = mx+c.
+\end{equation}
+Notice how the equation is nicely formatted and numbered? Also notice
+that the quation is punctuated like it is a sentence and part of the
+text (because it is!). We can even automatically refer to the equation
+number. First, when we make the equation we have to give it a label
+like so,
+\begin{equation}\label{eq:integralofc}
+  a = \int c(x)dx.
+\end{equation}
+Then, in the text we can refer to it just by typing
+Eq.~\ref{eq:integralofc}! We can put labels anywhere, in figures,
+tables, chapters wherever, and use the ref command to refer to
+them. For instance, this section is Sec.~\ref{sec:math}. Notice the
+label just after the section command above?
+
+We can also write math inline. So for example I might say, our first
+function is $y=mx+c$. This is the same function as above, but printed
+in-line.
+
+There are a million math commands, so please take a look at the AMS
+math package manual for more information. Here is an impressive 
+equation to show off the features,
+\begin{multline}
+  \left( \frac{\partial}{\partial t} + \sum_{j}^n \left[ i{\mathcal
+        L}^0_j - \sum_{k > j}^n {\mathcal T}(j,k) \right]\right)
+  f({\Gamma}_1,\dots,{\Gamma}_n,t)
+  \\
+  = \sum_{j=1}^{n} \int {\rm d}{\Gamma}_{n+1}\, {\mathcal T}(j,n+1)\,
+  f({\Gamma}_1,\dots,{\Gamma}_{n+1},t).
+\end{multline}
+
+\section{Adding Figures}
+To add figures to your text, you need to use a series of commands, but
+you can just copy paste the one below and tweak it for your needs.
+\begin{figure}[htp]
+  \centering
+  \includegraphics[clip,width=0.5\linewidth]{figures/testfig}
+  \caption{\label{fig:testfig} A test figure. This caption is wayy too
+    short. It should be long enough to explain where the figure came
+    from and exactly what it presents. Don't use single sentence captions!}
+\end{figure}
+
+I can refer to this figure (Fig.~\ref{fig:testfig}) using the ref
+command again, provided I've placed a label in the caption. But notice
+how I don't get to choose where it is placed? I can only give hints,
+via the [htp] option (which means either place it [H]ere, at the [T]op
+of the page, or a whole [P]age). Latex is free to place it where it
+thinks best.
+
+The one time we can be forceful about a figure is when it is placed on
+its own page using just the [p] placement. But if we're doing a
+full-page figure we might want it rotated too to make sure we fully
+use the space. See Fig.~\ref{fig:testfig2} for what I mean.
+\begin{sidewaysfigure}
+  \centering
+  \includegraphics[clip,width=0.8\textwidth]{figures/testfig}
+  \caption{\label{fig:testfig2} A full page test figure and even the caption is rotated!.}
+\end{sidewaysfigure}
+
+\section{Formatting Text}
+You can format text in latex, but {\bf please use it sparingly!}. The
+results {\em aren't always pleasant}. Use it only when you
+\underline{really} want to.
+
+\section{Using a Nomenclature}
+To use a nomenclature you must add extra commands throughout your text
+whenever you define a new term. For example, a handy acronym is MD
+\nomenclature[A MD]{MD}{Molecular Dynamics}. 
+
+The nomenclature command has 3 arguments. The last argument is the
+description of the symbol/acronym. The second argument is the
+symbol/acronym. The first is the type of entry it is (A=acronyms,
+O=operator, V=Variables/Constants, S=Notation, and F is functions),
+followed by a space then the alphabetical version of the term. For
+example, if I wanted to define a greek symbol such as $\alpha$
+\nomenclature[V alpha]{$\alpha$}{Alpha}, I would need to write alpha
+here.
+
+\section{Tables}
+
+Tables are made in the following way...
+\begin{table}
+  \begin{center}
+    \begin{tabular}{|p{4cm}|p{2cm}|||p{4cm}|p{2cm}|}
+      Surface & $\varepsilon$ & Surface & $\varepsilon$ 
+      \\\hline\hline%
+      Asbestos, Board & 0.96 & Carbon, Candle soot & 0.95 \\
+      Water & 0.95--0.96 & Carbon, Lampblack & 0.95\\
+      Iron and steel, rough & 0.94--0.97 & Brick, Red, rough & 0.93\\
+      White enamel paint & 0.906 & Iron and steel & 0.74\\
+      Iron and steel, Sheet steel, oxidised & 0.657 & Oxidised Lead  & 0.28\\
+      Iron and steel, Polished iron & 0.14--0.38 & Rough Aluminium & 0.06\\
+      Polished Aluminium & 0.04 & Highly polished Gold & 0.02--0.35
+    \end{tabular}
+  \end{center}
+  %% In square brackets is the short caption name! Always use this if
+  %% your caption is longer than one line in the list of tables!
+  \caption[Typical values of the emissivity for various materials]{
+    Typical values of the emissivity for various materials, 
+    taken from Coulson \& Richardson, Vol.~1, Fig.~9.40.}
+\end{table}
+
+Just after the begin tabular command, the number of columns and their
+alignments are selected. p means the column is a fixed width
+paragraph, l c and r are a left aligned, centered and right aligned
+columns respectively. The pipe character | adds vertical lines between
+columns. Horizontal lines are added using hline commands in the table
+itself.
+
+We can also make full-page sideways tables when there is a lot of data
+to present (See Table.~\ref{tab:BigTable})
+\begin{sidewaystable}
+  \begin{center}
+    \begin{tabular}{|p{6.5cm}|p{2.0cm}|||p{4.5cm}|p{2.5cm}|}
+      Surface & $\varepsilon$ & Surface & $\varepsilon$ 
+      \\\hline\hline%
+      Asbestos, Board & 0.96 & Carbon, Candle soot & 0.95 \\
+      Water & 0.95--0.96 & Carbon, Lampblack & 0.95\\
+      Iron and steel, rough & 0.94--0.97 & Brick, Red, rough & 0.93\\
+      White enamel paint & 0.906 & Iron and steel & 0.74\\
+      Iron and steel, Sheet steel, oxidised & 0.657 & Oxidised Lead  & 0.28\\
+      Iron and steel, Polished iron & 0.14--0.38 & Rough Aluminium & 0.06\\
+      Polished Aluminium & 0.04 & Highly polished Gold & 0.02--0.35
+    \end{tabular}
+  \end{center}
+  %% In square brackets is the short caption name! Always use this if
+  %% your caption is longer than one line in the list of tables!
+  \caption[Typical values of the emissivity for various materials (sideways)]{
+    \label{tab:BigTable}Typical values of the emissivity for various materials, 
+    taken from Coulson \& Richardson, Vol.~1, Fig.~9.40.
+}
+\end{sidewaystable}
+
+\section{Footnotes}
+Footnotes are really easy to do\footnote{And you can even put mathematics (even figures and tables) in them 
+  \begin{align}
+    f=m\,x+c
+  \end{align}
+  
+  Just don't go crazy and write paragraphs and paragraphs of text in
+  them. 
+}.
+
+\section{Referencing and Generating}
+You can reference entries in your bib file using the key you have set
+for it like so~\cite{Bannerman_2009}. I can even do cool things like
+say the author of that citation is \citeauthor{Bannerman_2009} and it
+was published in \citeyear{Bannerman_2009}. Or even ask for a full
+citation, like so: \fullcite{Bannerman_2009}.
+
+\chapter{A Little Further Down The Rabbit Hole}
+\lettrine{W}{hy} stop there? There are some lovely features of latex
+we can use, like the lettrine at the start of this chapter. Or the
+epigraph at the start of the next section!
+\section{Epigraphs}
+\epigraph{{\em ``Epigraphs are cool!''}}{M.~Campbell Bannerman}
+
+You can use epigraphs to include relevant information, such as quotes
+or information on where the section/chapter was published.
+
+\section{Hyperlinks}
+Finally, we can even take advantage of the digital nature of our
+document and include
+hyperlinks. \href{https://marcusbannerman.co.uk/images/stories/pdfs/thesis.pdf}{
+  This entire sentence (try clicking it) is linked to my own website}.
+
+\printbibliography[heading=thesisChapterBib]
+\end{document}
