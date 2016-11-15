@@ -1,15 +1,39 @@
 \ProvidesClass{UoAthesis}
 
 %%% Class options
-\newif\if@doublesided
-\@doublesidedfalse
-\DeclareOption{doublesided}
-{\@doublesidedtrue}
+\makeatletter%
+\newif\ifdoublesided
+%default double sided true
+\doublesidedtrue
+\DeclareOption{singlesided}{\doublesidedfalse}
+
+\newif\ifspacesaving
+\spacesavingfalse
+
+\DeclareOption{spacesaving}{\spacesavingtrue}
+
+\newcommand{\degree}[1]{\def \@degree {#1}}
+\global\let\@degree\@empty
+\DeclareOption{PhD}{
+  \degree{{PhD~degree in Engineering}}
+  \spacesavingfalse
+}
+
+\DeclareOption{MEng}{
+  \degree{{MEng~degree in Engineering}}
+  \spacesavingtrue
+}
+
+\DeclareOption{BEng}{
+  \degree{{BEng~degree in Engineering}}
+  \spacesavingtrue
+}
+\makeatother
 
 \ExecuteOptions{}
 \ProcessOptions
 
-\if@doublesided
+\ifdoublesided
 \LoadClass[UKenglish,a4paper,12pt,twoside]{report}
 \else
 \LoadClass[UKenglish,a4paper,12pt]{report}
@@ -45,12 +69,12 @@
 
 %%% Other details
 \newcommand{\docspacing}{\onehalfspacing}
-%%% The university guidelines state 25mm top and bottom margins, and
-%%% 30mm left and right margins. We add a binding edge indent too.
-\newlength{\bindingedgeindent}\setlength{\bindingedgeindent}{15mm}
-\newlength{\sideMargin}\setlength{\sideMargin}{15mm}
-\newlength{\topMargin}\setlength{\topMargin}{15mm}
-\newlength{\bottomMargin}\setlength{\bottomMargin}{15mm}
+%%% The university guidelines state min 15mm margins with a binding
+%%% edge margin of 35mm. Here we use 20mm
+\newlength{\bindingedgeindent}\setlength{\bindingedgeindent}{20mm}
+\newlength{\sideMargin}\setlength{\sideMargin}{20mm}
+\newlength{\topMargin}\setlength{\topMargin}{20mm}
+\newlength{\bottomMargin}\setlength{\bottomMargin}{20mm}
 \RequirePackage[a4paper,bindingoffset=\bindingedgeindent,%
 hdivide={\sideMargin,*,\sideMargin},%
 vdivide={\topMargin,*,\bottomMargin}]{geometry}
@@ -122,8 +146,9 @@ backref=false,sorting=none,abbreviate=true]{biblatex}
 \renewcommand*{\chapter}{%
   \secdef{\Chap}{\ChapS}% whether there's a star or not...
 }
-\newcommand\ChapS[1]{\FloatBarrier\singlespacing\cleardoublepage\oldchap*{{\uppercase{#1}}}\markboth{{\uppercase{#1}}}{{\uppercase{#1}}}\docspacing}
-\newcommand\Chap[2][]{\FloatBarrier\singlespacing\cleardoublepage\oldchap[#1]{{\uppercase{#2}}}\docspacing}
+
+\newcommand\ChapS[1]{\FloatBarrier\singlespacing\ifspacesaving\clearpage\else\cleardoublepage\fi\oldchap*{{\uppercase{#1}}}\markboth{{\uppercase{#1}}}{{\uppercase{#1}}}\docspacing}
+\newcommand\Chap[2][]{\FloatBarrier\singlespacing\ifspacesaving\clearpage\else\cleardoublepage\fi\oldchap[#1]{{\uppercase{#2}}}\docspacing}
 
 %% Epigraphs for stating where chapters were from
 \RequirePackage{epigraph}
@@ -177,7 +202,7 @@ breaklinks=true
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%      Make it look like a book in acroread
 \makeatletter
-\if@doublesided
+\ifdoublesided
 \pdfcatalog{/PageLayout /TwoPageRight}
 \fi
 \makeatother
@@ -206,10 +231,11 @@ breaklinks=true
     \vskip1.5in%
     \begin{center}
       \large \textsc{ This thesis was submitted as part of the
-        requirement for the MEng.~degree in Engineering.}
+        requirement for the \@degree.}
     \end{center}
     \vfill
     \begin{center}
+
       \@school\hfill\@thesisyear\hfill\@university
     \end{center}
   \end{titlepage}
@@ -219,26 +245,25 @@ breaklinks=true
   \chapter*{Abstract}
   \addcontentsline{toc}{chapter}{Abstract}%
   \@abstract
-  \cleardoublepage
 
   %%% Table of Contents
-  \cleardoublepage
+  \ifspacesaving\clearpage\else\cleardoublepage\fi
   \ifpdf\phantomsection\pdfbookmark[0]{Contents}{Contents}\fi
   \tableofcontents
   \vfill
-  \cleardoublepage
+  \ifspacesaving\clearpage\else\cleardoublepage\fi
   \ifpdf\phantomsection\pdfbookmark[0]{List of Figures}{TableoffiguresPg}\fi
   \listoffigures
-  \cleardoublepage
+  \ifspacesaving\clearpage\else\cleardoublepage\fi
   \ifpdf\phantomsection\pdfbookmark[0]{List of Tables}{TableoftablesPg}\fi
   \listoftables
-  \cleardoublepage
+  \ifspacesaving\clearpage\else\cleardoublepage\fi
   \phantomsection\addcontentsline{toc}{chapter}{Nomenclature}
   \printnomenclature
   \chapter*{Acknowledgements}
   \addcontentsline{toc}{chapter}{Acknowledgements}
   \@acknowledgements
-  \cleardoublepage
+  \ifspacesaving\clearpage\else\cleardoublepage\fi
   \docspacing
 }
 \makeatother

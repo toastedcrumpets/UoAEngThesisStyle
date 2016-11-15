@@ -1,17 +1,16 @@
 % Everything after a percentile (%) is a comment and is ignored by LaTeX
-
 %%%%% UoAThesis options
-% MEng thesis - you don't want to use the doublesided option as it
-% "wastes" pages every chapter. 
-%
-% PhD thesis - you might want to add the doublesided option, it looks
-% nicer.
-%
-\documentclass[12pt]{UoAThesis}
+% MEng or BEng - This style is more aggressive in saving space, to allow you to use every page if nessacary
+% PhD - This style always starts chapters on the right, which is much more pleasant than the MEng/BEng style, but wastes nearly a page per chapter.
+% singlesided - Disable double sided printing.
+\documentclass[12pt,MEng]{UoAThesis}
 \thesistitle{Style template for Aberdeen Engineering and a rough guide to \LaTeX}
 \thesisauthor{Marcus Nigel Campbell Bannerman}
 \thesispdfkeywords{}
 \thesisyear{2017}
+% The degree title is automatically set by the options above; however,
+% you can add your degree specialism like so:
+% \degree{MEng~degree in Electrical Engineering}
 
 \thesisabstract{This is a tutorial on \LaTeX in the style of a
   thesis. It shows you how to use the UoAThesis style, and some common
@@ -61,22 +60,23 @@ can create an equation like so,
   y = mx+c.
 \end{equation}
 Notice how the equation is nicely formatted and numbered? Also notice
-that the quation is punctuated like it is a sentence and part of the
-text (because it is!). We can even automatically refer to the equation
-number. First, when we make the equation we have to give it a label
-like so,
+that the quation is punctuated like it is part of the sentence?
+Referring to the equation number is easy as well. First, when we make
+the equation we have to give it a label like so,
 \begin{equation}\label{eq:integralofc}
   a = \int c(x)dx.
 \end{equation}
 Then, in the text we can refer to it just by typing
-Eq.~\ref{eq:integralofc}! We can put labels anywhere, in figures,
-tables, chapters wherever, and use the ref command to refer to
-them. For instance, this section is Sec.~\ref{sec:math}. Notice the
-label just after the section command above?
+Eq.~\ref{eq:integralofc} (see the thesis.tex file for what was
+actually was done).
+
+We can put labels anywhere, in figures, tables, chapters wherever, and
+use the ref command to refer to them. For instance, this section is
+Sec.~\ref{sec:math}. Notice the label just after the section command
+above?
 
 We can also write math inline. So for example I might say, our first
-function is $y=mx+c$. This is the same function as above, but printed
-in-line.
+function is $y=mx+c$. 
 
 There are a million math commands, so please take a look at the AMS
 math package manual for more information. Here is an impressive 
@@ -96,9 +96,11 @@ you can just copy paste the one below and tweak it for your needs.
 \begin{figure}[htp]
   \centering
   \includegraphics[clip,width=0.5\linewidth]{figures/testfig}
-  \caption{\label{fig:testfig} A test figure. This caption is wayy too
-    short. It should be long enough to explain where the figure came
-    from and exactly what it presents. Don't use single sentence captions!}
+  %You should always put a short caption in the [] for the table of figures
+  \caption[A test figure]{\label{fig:testfig} A test figure. This
+    caption is far too short. It should explain where the figure came
+    from and exactly what it presents. Note how only a ``short''
+    single-sentence caption appears in the table of figures though.}
 \end{figure}
 
 I can refer to this figure (Fig.~\ref{fig:testfig}) using the ref
@@ -106,12 +108,20 @@ command again, provided I've placed a label in the caption. But notice
 how I don't get to choose where it is placed? I can only give hints,
 via the [htp] option (which means either place it [H]ere, at the [T]op
 of the page, or a whole [P]age). Latex is free to place it where it
-thinks best.
+thinks best. It knows better than you how to place figures too. If
+they're not looking too good, maybe you have too little text, or the
+figure is too wide/high. Remember, the text in the figure should at
+least be as large as the text in the document, so don't shrink those
+graphs too much.
 
-The one time we can be forceful about a figure is when it is placed on
-its own page using just the [p] placement. But if we're doing a
-full-page figure we might want it rotated too to make sure we fully
-use the space. See Fig.~\ref{fig:testfig2} for what I mean.
+The figure used here was drawn in Inkscape, an excellent free drawing
+programme. Remember to save your images as PDF, and avoid using
+jpg/png wherever possible (to keep the nice crisp vectorised graphics).
+
+The one time we can be forceful about a figure is when we want it
+placed on its own page by using the [p] placement. But if we're
+doing a full-page figure we might want it rotated too to make sure we
+fully use the space. See Fig.~\ref{fig:testfig2} for an example.
 \begin{sidewaysfigure}
   \centering
   \includegraphics[clip,width=0.8\textwidth]{figures/testfig}
@@ -169,7 +179,7 @@ columns. Horizontal lines are added using hline commands in the table
 itself.
 
 We can also make full-page sideways tables when there is a lot of data
-to present (See Table.~\ref{tab:BigTable})
+to present (see Table.~\ref{tab:BigTable})
 \begin{sidewaystable}
   \begin{center}
     \begin{tabular}{|p{6.5cm}|p{2.0cm}|||p{4.5cm}|p{2.5cm}|}
